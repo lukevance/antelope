@@ -6,8 +6,8 @@ const typeDefs = `
 	type Event {
 		id: ID!
 		title: String!
-        start_timestamp: String!,
-        end_timestamp: String!
+		start_timestamp: String!
+		end_timestamp: String!
 	}
 
 	type Query {

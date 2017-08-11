@@ -1,6 +1,6 @@
 module.exports = {
 	Query: {
-        	allEvents: () => async (root, data, {mongo: { Events }}) => {
+        	allEvents:  async (root, data, {mongo: { Events }}) => {
 			return await Events.find({}).toArray();
 		},
 	},
