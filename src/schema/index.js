@@ -9,13 +9,28 @@ const typeDefs = `
 		start_timestamp: String!
 		end_timestamp: String!
 	}
+	type User {
+		id: ID!
+		name: String!
+		email: String
+	}
 
 	type Query {
 		allEvents: [Event!]!
     }
     
-    type Mutation {
+	type Mutation {
         createEvent(title: String!, start_timestamp: String!): Event
+		createUser(name: String!, authProvider: AuthProviderSignupData!): User
+	}
+
+	input AuthProviderSignupData {
+		email: AUTH_PROVIDER_EMAIL
+	}
+
+	input AUTH_PROVIDER_EMAIL {
+		email: String!
+        password: String!
     }
 `;
 
