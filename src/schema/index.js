@@ -20,10 +20,14 @@ const typeDefs = `
     }
     
 	type Mutation {
-        createEvent(title: String!, start_timestamp: String!): Event
-		createUser(name: String!, authProvider: AuthProviderSignupData!): User
+        	createEvent(title: String!, start_timestamp: String!): Event
+		createUser(name: String!, authProvider: AuthProviderSignupData!): User	
+		signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
 	}
-
+	type SigninPayload {
+		token: String
+		user: User
+	}
 	input AuthProviderSignupData {
 		email: AUTH_PROVIDER_EMAIL
 	}
