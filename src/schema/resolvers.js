@@ -3,12 +3,16 @@ module.exports = {
         allEvents: async(root, data, { mongo: { Events } }) => {
             return await Events.find({}).toArray();
         },
+        allUsers: async(root, data, { mongo: { Users } }) => {
+            return await Users.find({}).toArray();
+        }
     },
 
     Mutation: {
-        createEvent: async(root, data, { mongo: { Events } }) => {
-            const response = await Events.insert(data);
-            return Object.assign({ id: response.insertedIds[0] }, data);
+        createEvent: async(root, data, { mongo: { Events }, user }) => {
+            const newEvent = Object.assign({ eventOwnerId: user && user._id }, data);
+            const response = await Events.insert(newEvent);
+            return Object.assign({ id: response.insertedIds[0] }, newEvent);
         },
         createUser: async(root, data, { mongo: { Users } }) => {
             const newUser = {
@@ -19,18 +23,21 @@ module.exports = {
             const response = await Users.insert(newUser);
             return Object.assign({ id: response.insertedIds[0] }, newUser);
         },
-	signinUser: async (root, data, {mongo: {Users}}) => {
-		const user = await Users.findOne({email: data.email.email});
-		if (data.email.password === user.password) {
-			return {token: `token-${user.email}`, user};
-		}
-	}
+        signinUser: async(root, data, { mongo: { Users } }) => {
+            const user = await Users.findOne({ email: data.email.email });
+            if (data.email.password === user.password) {
+                return { token: `token-${user.email}`, user };
+            }
+        },
     },
 
     Event: {
-        id: root => root._id || root.id
+        id: root => root._id || root.id,
+        eventOwner: async({ eventOwnerId }, data, { mongo: { Users } }) => {
+            return await Users.findOne({ _id: eventOwnerId })
+        }
     },
-	User: {
-		id: root => root._id || root.id
-	}
+    User: {
+        id: root => root._id || root.id
+    }
 };

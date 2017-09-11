@@ -7,7 +7,8 @@ const typeDefs = `
 		id: ID!
 		title: String!
 		start_timestamp: String!
-		end_timestamp: String!
+        end_timestamp: String!
+        eventOwner: User
 	}
 	type User {
 		id: ID!
@@ -16,11 +17,12 @@ const typeDefs = `
 	}
 
 	type Query {
-		allEvents: [Event!]!
+        allEvents: [Event!]!
+        allUsers: [User!]!
     }
     
 	type Mutation {
-        	createEvent(title: String!, start_timestamp: String!): Event
+        createEvent(title: String!, start_timestamp: String!): Event
 		createUser(name: String!, authProvider: AuthProviderSignupData!): User	
 		signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
 	}
