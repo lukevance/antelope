@@ -9,12 +9,19 @@ const typeDefs = `
 		start_timestamp: String!
         end_timestamp: String!
         eventOwner: User
+        category: Category
 	}
 	type User {
 		id: ID!
 		name: String!
 		email: String
-	}
+    }
+    type Category {
+        id: ID!
+        user: User!
+        name: String!
+        parent: Category
+    }
 
 	type Query {
         allEvents: [Event!]!
@@ -23,6 +30,7 @@ const typeDefs = `
     
 	type Mutation {
         createEvent(title: String!, start_timestamp: String!): Event
+        createCategory(name: String!): Category
 		createUser(name: String!, authProvider: AuthProviderSignupData!): User	
 		signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
 	}

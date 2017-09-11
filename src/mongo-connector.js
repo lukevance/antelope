@@ -7,6 +7,7 @@ module.exports = async() => {
     return {
         Events: db.collection('events'),
         Users: db.collection('users'),
+        Categories: db.collection('categories'),
     };
 
 };

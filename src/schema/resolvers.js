@@ -23,6 +23,13 @@ module.exports = {
             const response = await Users.insert(newUser);
             return Object.assign({ id: response.insertedIds[0] }, newUser);
         },
+        createCategory: async(root, data, { mongo: { Categories }, user }) => {
+            const newCategory = {
+                userId: user && user._id,
+            };
+            const response = await Categories.insert(newCategory);
+            return Object.assign({ id: response.insertedIds[0] }, newCategory);
+        },
         signinUser: async(root, data, { mongo: { Users } }) => {
             const user = await Users.findOne({ email: data.email.email });
             if (data.email.password === user.password) {
@@ -39,5 +46,11 @@ module.exports = {
     },
     User: {
         id: root => root._id || root.id
+    },
+    Category: {
+        id: root => root._id || root.id,
+        user: async({ userId }, data, { mongo: { Users } }) => {
+            return await Users.findOne({ _id: userId })
+        }
     }
 };
