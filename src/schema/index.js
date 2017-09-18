@@ -23,14 +23,21 @@ const typeDefs = `
         parent: Category
     }
 
+	type Tag {
+		id: ID!
+		user: User!
+		name: String!
+		description: String
+	}
 	type Query {
         allEvents: [Event!]!
         allUsers: [User!]!
     }
     
 	type Mutation {
-        createEvent(title: String!, start_timestamp: String!): Event
-        createCategory(name: String!): Category
+        	createEvent(title: String!, start_timestamp: String!): Event 
+		createCategory(name: String!): Category
+		createTag(name: String!): Tag
 		createUser(name: String!, authProvider: AuthProviderSignupData!): User	
 		signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
 	}

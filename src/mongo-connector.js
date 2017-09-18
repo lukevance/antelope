@@ -8,6 +8,7 @@ module.exports = async() => {
         Events: db.collection('events'),
         Users: db.collection('users'),
         Categories: db.collection('categories'),
+	Tags: db.collection('tags')
     };
 
 };

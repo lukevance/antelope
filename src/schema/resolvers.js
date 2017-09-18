@@ -30,6 +30,15 @@ module.exports = {
             const response = await Categories.insert(newCategory);
             return Object.assign({ id: response.insertedIds[0] }, newCategory);
         },
+	createTag: async (root, data, {mongo: {Tags}, user}) => {
+		const newTag = {
+			userId: user && user._id,
+			name: data.name,
+			description: data.description,
+		};
+		const response = await Tags.insert(newTag);
+		return Object.assign({id: response.insertedIds[0]}, newTag);
+	},
         signinUser: async(root, data, { mongo: { Users } }) => {
             const user = await Users.findOne({ email: data.email.email });
             if (data.email.password === user.password) {
@@ -52,5 +61,11 @@ module.exports = {
         user: async({ userId }, data, { mongo: { Users } }) => {
             return await Users.findOne({ _id: userId })
         }
+    },
+    Tag: {
+	id: root => root._id || root.id,
+	user: async ({userId}, data, {mongo: {Users}}) => {
+		return await Users.findOne({_id: userId});
+	}
     }
 };
